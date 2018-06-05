@@ -1,2 +1,3 @@
 beach_seq,beach_name,county,waterbody_name,water_body_type,update_date,inland,historical_flag,beach_desc, state_lead_contact_seq, pri_local_lead_contact_seq, notification_lead_contact_seq
 1,"First Beach","Dodge","Rock","River","1990-10-12 13:01:01","N","N", "beach",                               123,                    123,                        123
+119,"Second Beach","Dodge","Rock","River","1990-10-12 13:01:02","N","N", "beach",                               123,                    123,                        123

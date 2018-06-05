@@ -18,8 +18,7 @@
         AVG_WATER_TEMP_UNITS, CLARITY_DESC, NTU, SECCHI_TUBE_CM, ALGAE_NEARSHORE, ALGAE_ON_BEACH, ALGAE_TYPE_PERIPHYTON,
         ALGAE_TYPE_GLOBULAR, ALGAE_TYPE_FREEFLOATING, ALGAE_TYPE_OTHER, ALGAE_TYPE_OTHER_DESC, ALGAE_COLOR_LT_GREEN,
         ALGAE_COLOR_BRGHT_GREEN, ALGAE_COLOR_DRK_GREEN, ALGAE_COLOR_YELLOW, ALGAE_COLOR_BROWN, ALGAE_COLOR_OTHER,
-        ALGAE_COLOR_OTHER_DESC, PART_1_COMMENTS, PART2_COMMENTS, PART3_COMMENTS, PART4_COMMENTS, DATE_ENTERED,
-        DATE_UPDATED, SAMPLER_SEQ, DATA_ENTRY_SEQ, FLOATABLES_FLAG)
+        ALGAE_COLOR_OTHER_DESC, PART_1_COMMENTS, PART2_COMMENTS, PART3_COMMENTS, PART4_COMMENTS, SAMPLER_SEQ, DATA_ENTRY_SEQ, FLOATABLES_FLAG)
             values(
                 #{beachSeq, jdbcType=INTEGER},
                 #{monitorSiteSeq, jdbcType=INTEGER},
@@ -118,8 +117,6 @@
                 #{part2Comments, jdbcType=VARCHAR},
                 #{part3Comments, jdbcType=VARCHAR},
                 #{part4Comments, jdbcType=VARCHAR},
-                #{dateEntered, jdbcType=DATE},
-                #{dateUpdated, jdbcType=DATE},
                 #{samplerSeq, jdbcType=INTEGER},
                 #{dataEntrySeq, jdbcType=INTEGER},
                 #{floatablesFlag, jdbcType=VARCHAR}

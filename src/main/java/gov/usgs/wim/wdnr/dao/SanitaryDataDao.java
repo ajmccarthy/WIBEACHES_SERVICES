@@ -17,23 +17,24 @@ public class SanitaryDataDao extends SqlSessionDaoSupport {
     public SanitaryDataDao(SqlSessionFactory sqlSessionFactory) {
         setSqlSessionFactory(sqlSessionFactory);
     }
+
     public void create(SanitaryData sd) {
         getSqlSession().insert("create", sd);
     }
 
-    public int getUserid(String username) {
+    public Integer getUserid(String username) {
         return getSqlSession().selectOne("username", username);
     }
 
-    public int checkUniqueKey(Map<String, Object> params) {
+    public Integer checkUniqueKey(Map<String, Object> params) {
         return getSqlSession().selectOne("checkUniqueKey", params);
     }
 
-    public int checkBeachSeq(Map<String, Object> params) {
+    public Integer checkBeachSeq(Map<String, Object> params) {
         return getSqlSession().selectOne("checkBeachSeq", params);
     }
 
-    public int checkMonitorSite(Map<String, Object> params) {
+    public Integer checkMonitorSite(Map<String, Object> params) {
         return getSqlSession().selectOne("checkMonitorSite", params);
     }
 }

@@ -33,10 +33,16 @@ import io.swagger.annotations.Api;
 @RequestMapping("/sanitaryData")
 public class SanitaryDataController {
 
-    @Autowired
     private SanitaryDataDao sDao;
-    @Autowired
     private Validator validator;
+    private Set<ConstraintViolation<SanitaryData>> errors;
+
+    @Autowired
+    public SanitaryDataController(final SanitaryDataDao sDao, final Validator validator) {
+        this.sDao = sDao;
+        this.validator =  validator;
+    }
+
 
     private static final Logger log = LoggerFactory.getLogger(SanitaryDataController.class);
 
@@ -48,53 +54,12 @@ public class SanitaryDataController {
     @PostMapping()
     @JsonView(Views.Response.class)
     public List<SanitaryData> createSanitaryData(@RequestBody List<SanitaryData> sd, HttpServletResponse response) throws IOException {
-        int userid = getUserid();
-//        sd.setCreatedBy(getUsername());//?
-//        sd.setUpdatedBy(getUsername());//?
-        boolean noErrors = true;
-        for (int i = 0; i < sd.size(); i++) {
-            Set<ConstraintViolation<SanitaryData>> errors = validator.validate(sd.get(i));
-            sd.get(i).setValidationErrors(errors);
-            if (!errors.isEmpty()) {
-                noErrors = false;
+        boolean noErrors = checkErrors(sd, response);
 
-//            return sDao.getById(newId);
-                response.setStatus(400);
-            }
-        }
         if (noErrors) {
             for (int i = 0; i < sd.size(); i++) {
-                log.debug("id before = " + sd.get(i).getIdNo());
-                sd.get(i).setSamplerSeq(userid);
-                sd.get(i).setDataEntrySeq(userid);
-
-                if (sd.get(i).getFloatStreetLitter() == true
-                        || sd.get(i).getFloatFood() == true
-                        || sd.get(i).getFloatMedical() == true
-                        || sd.get(i).getFloatSewage() == true
-                        || sd.get(i).getFloatBldgMaterials() == true
-                        || sd.get(i).getFloatFishing() == true
-                        || sd.get(i).getFloatOther() == true ) {
-                    sd.get(i).setFloatablesFlag(true);
-                }
-
-                if (sd.get(i).getWindSpeed() == null && sd.get(i).getWindDirDesc().equals("Calm")) {
-                    sd.get(i).setWindDirDesc(null);
-                }
-                else if (sd.get(i).getWindSpeed() != null && sd.get(i).getWindDirDesc().equals("Calm")) {
-                    sd.get(i).setWindDirDesc("Calm, no direction");
-                }
-
-                if (sd.get(i).getPart1Comments().equals("; ")) {
-                    sd.get(i).setPart1Comments(null);
-                }
-
-                if (sd.get(i).getPart4Comments().equals("; ; ; ; ")) {
-                    sd.get(i).setPart4Comments(null);
-                }
-
-                sDao.create(sd.get(i));
-                response.setStatus(HttpStatus.CREATED.value());
+                checkVals(sd.get(i));
+                create(sd.get(i), response);
             }
         }
 
@@ -114,5 +79,58 @@ public class SanitaryDataController {
         }
         return userid;
     }
+
+    public boolean checkErrors(List<SanitaryData> sd, HttpServletResponse response) {
+        boolean noErrors = true;
+        for (int i = 0; i < sd.size(); i++) {
+            errors = validator.validate(sd.get(i));
+            sd.get(i).setValidationErrors(errors);
+            if (!errors.isEmpty()) {
+                noErrors = false;
+                response.setStatus(400);
+            }
+        }
+        return noErrors;
+    }
+
+    public void create(SanitaryData san, HttpServletResponse response) {
+        int userid = getUserid();
+
+            san.setSamplerSeq(userid);
+            san.setDataEntrySeq(userid);
+            sDao.create(san);
+            response.setStatus(HttpStatus.CREATED.value());
+    }
+
+    public void checkVals(SanitaryData san) {
+
+        if (san.getFloatStreetLitter() == true
+                || san.getFloatFood() == true
+                || san.getFloatMedical() == true
+                || san.getFloatSewage() == true
+                || san.getFloatBldgMaterials() == true
+                || san.getFloatFishing() == true
+                || san.getFloatOther() == true ) {
+            san.setFloatablesFlag(true);
+        }
+
+        if (san.getWindSpeed() == null && san.getWindDirDesc().equals("Calm")) {
+            san.setWindDirDesc(null);
+        }
+
+        else if (san.getWindSpeed() != null && san.getWindDirDesc().equals("Calm")) {
+            san.setWindDirDesc("Calm, no direction");
+        }
+
+        if (san.getPart1Comments().equals("; ")) {
+            san.setPart1Comments(null);
+        }
+
+        if (san.getPart4Comments().equals("; ; ; ; ")) {
+            san.setPart4Comments(null);
+        }
+    }
+
+
 
 }

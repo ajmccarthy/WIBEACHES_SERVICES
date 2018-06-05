@@ -20,7 +20,6 @@ public class BeachSeqValidatorForSanitaryData implements ConstraintValidator<Bea
 
     @Override
     public void initialize(BeachSeq constraintAnnotation) {
-        // Nothing for us to do here at this time.
     }
 
     @Override

@@ -1,2 +1,3 @@
 monitor_site_seq,beach_seq,station_name,update_date,status,station_desc, lead_station_contact_seq
 2,1,"Rockem","1990-10-12 12:59:59","Y",                     "station",    123
+134,119,"BeachTwo","1990-10-12 12:59:58","Y",                     "station",    123
