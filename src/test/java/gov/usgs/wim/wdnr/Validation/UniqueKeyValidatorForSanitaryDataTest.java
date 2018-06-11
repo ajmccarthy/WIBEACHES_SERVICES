@@ -21,8 +21,6 @@ import static org.junit.Assert.assertFalse;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.anyMap;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = TestSpringConfig.class)
 
 public class UniqueKeyValidatorForSanitaryDataTest {
 
